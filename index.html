@@ -10,14 +10,33 @@ body {
   margin: 0;
   height: 100vh;
   background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: 'Segoe UI', sans-serif;
   overflow: hidden;
 }
 
+/* 💕 Floating hearts background */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  color: rgba(255,255,255,0.8);
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-120vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
 .card {
+  position: relative;
+  z-index: 2;
   background: white;
   padding: 30px 25px;
   border-radius: 20px;
@@ -25,11 +44,13 @@ body {
   width: 90%;
   max-width: 360px;
   box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 h1 {
   color: #ff4d6d;
-  margin-bottom: 10px;
 }
 
 p {
@@ -86,6 +107,9 @@ button {
 
 <body>
 
+<!-- 💕 Hearts container -->
+<div id="hearts"></div>
+
 <div class="card">
   <div id="question">
     <h1>Nayan 💖</h1>
@@ -115,6 +139,24 @@ button {
 </div>
 
 <script>
+/* 💘 Floating hearts generator */
+const heartsContainer = document.getElementById("hearts");
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+  heart.style.fontSize = (16 + Math.random() * 20) + "px";
+  heartsContainer.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 8000);
+}
+
+setInterval(createHeart, 400);
+
+/* 💕 Buttons logic */
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 
@@ -123,14 +165,10 @@ function moveNoButton() {
   const maxX = card.offsetWidth - noBtn.offsetWidth;
   const maxY = 120;
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
 }
 
-// 🔥 MOBILE + DESKTOP EVENTS
 noBtn.addEventListener("pointerdown", moveNoButton);
 noBtn.addEventListener("touchstart", moveNoButton);
 noBtn.addEventListener("mouseenter", moveNoButton);
