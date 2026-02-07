@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine, Nayan</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.card {
+    background: #fff;
+    width: 90%;
+    max-width: 360px;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    position: relative;
+}
+
+h1 {
+    color: #ff4b5c;
+}
+
+p {
+    font-size: 17px;
+    color: #555;
+}
+
+.buttons {
+    margin-top: 25px;
+    position: relative;
+    height: 100px;
+}
+
+button {
+    padding: 12px 26px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+}
+
+.yes {
+    background: #ff4b5c;
+    color: #fff;
+}
+
+.no {
+    background: #ddd;
+    position: absolute;
+    left: 160px;
+    top: 0;
+    transition: left 0.25s ease, top 0.25s ease;
+}
+
+/* Hearts */
+.heart {
+    position: fixed;
+    font-size: 22px;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    from { transform: translateY(-20px); opacity: 1; }
+    to { transform: translateY(100vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <h1>Nayan ❤️</h1>
+    <p>Will you be my Valentine?</p>
+
+    <div class="buttons" id="btnArea">
+        <button class="yes" onclick="yesClicked()">Yes 💖</button>
+        <button class="no" id="noBtn">No 💔</button>
+    </div>
+</div>
+
+<script>
+const card = document.getElementById("card");
+const noBtn = document.getElementById("noBtn");
+const btnArea = document.getElementById("btnArea");
+
+// Move No button safely inside button area
+function moveNoButton() {
+    const areaRect = btnArea.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const maxX = areaRect.width - btnRect.width;
+    const maxY = areaRect.height - btnRect.height;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+// Mobile + desktop tap
+noBtn.addEventListener("touchstart", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+// Yes action
+function yesClicked() {
+    card.innerHTML = `
+        <h1>Yay, Nayan!!! 💕</h1>
+        <p>You just made my heart the happiest place 🥰</p>
+        <p>I promise love, laughter & endless smiles ❤️</p>
+        <p>Happy Valentine’s Day 😘</p>
+    `;
+    createHearts();
+}
+
+// Heart rain
+function createHearts() {
+    for (let i = 0; i < 30; i++) {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "❤️";
+        h.style.left = Math.random() * window.innerWidth + "px";
+        h.style.animationDuration = (2 + Math.random() * 2) + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 3500);
+    }
+}
+</script>
+
+</body>
+</html>
